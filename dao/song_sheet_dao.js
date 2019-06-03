@@ -37,3 +37,12 @@ exports.insert = function (data, callback) {
         }
     });
 }
+
+exports.findPlayListPaginatet = async function(cat,offset,limit,id){
+    return await songSheetModel.findPlayListPaginatet();
+}
+exports.findPlayListById = function(id){
+
+}
+
+

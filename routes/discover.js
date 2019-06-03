@@ -1,6 +1,7 @@
 let express = require('express'),
-    playlist = require('../controller/discover/playlist')
+    playList = require('../controller/discover/playlist')
 const router = express.Router();
 
-router.get('/playlist',playlist);
+router.get('/playlist',playList.getPlayListPaginate);
 
+exports.router = router;
