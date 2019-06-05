@@ -1,4 +1,4 @@
-let songSheetModel = require('../models/songSheet'),
+let songSheetModel = require('../models/songSheetModels'),
     chalk = require('chalk');
 
 exports.insertMany = function (data, callback) {
@@ -38,8 +38,8 @@ exports.insert = function (data, callback) {
     });
 }
 
-exports.findPlayListPaginatet = async function(cat,offset,limit,id){
-    return await songSheetModel.findPlayListPaginatet();
+exports.findPlayListPaginatet = async function(order,cat,offset,limit){
+    return await songSheetModel.findPlayListPaginatet(order,cat,offset,limit);
 }
 exports.findPlayListById = function(id){
 

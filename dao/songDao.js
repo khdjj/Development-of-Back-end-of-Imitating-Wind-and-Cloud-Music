@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-20 14:39:11
  * @LastEditors: khdjj
- * @LastEditTime: 2019-05-30 16:44:37
+ * @LastEditTime: 2019-06-05 17:23:13
  */
 
 
@@ -15,7 +15,7 @@
  * callback 回调函数
  */
 
-let songModel = require('../models/song');
+let songModel = require('../models/songModels');
 var chalk = require('chalk');
 exports.insertMany = function(data,callback){
     songModel.insertMany(data,function(err,docs){
@@ -26,4 +26,20 @@ exports.insertMany = function(data,callback){
             console.log(chalk.green("插入歌曲文档成功"));
         }
     })
+}
+exports.findByIds =async function(song_ids,offset,limit){
+    limit = parseInt(limit);
+    console.log(limit);
+    offset = parseInt(offset);
+    let ids = [];
+    for(let i = 0 ;i<song_ids.length;i++){
+        ids.push(song_ids[i].song_id);
+    }
+    try{
+       return await songModel.find({"song_id":{"$in":ids}},{"_id":0}).limit(limit);
+    }catch(err){
+        return {
+            err:err
+        }
+    }
 }

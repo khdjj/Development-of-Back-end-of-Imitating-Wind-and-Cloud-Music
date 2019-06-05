@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-30 10:54:49
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-02 21:30:56
+ * @LastEditTime: 2019-06-03 14:37:22
  */
 
 
@@ -33,12 +33,13 @@ const songSheetSchema = new Schema({
     ],
 });
 songSheetSchema.statics.findPlayListPaginatet = function(order,cat,offset,limit,id){
+    offset = parseInt(offset);
+    limit = parseInt(limit);
     try{
-        if(order=="order"){
-            console.log("order");
-            return this.find({},{song_id:-1,desc:-1}).skip(offset).limit(limit);
-        }else if(order == "detail"){
-            return this.find().skip(offset).limit(limit);
+        if(cat){
+            return this.find({'label.cat':`${cat}`},{song_ids:0,desc:0}).skip(offset).limit(limit);
+        }else{
+            return this.find({},{song_ids:0,desc:0}).skip(offset).limit(limit);
         }
     }catch(err){
         console.log(chalk.red("数据库查询歌单分页错误"));

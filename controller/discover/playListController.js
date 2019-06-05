@@ -4,10 +4,11 @@
  * @Author: khdjj
  * @Date: 2019-06-02 10:39:30
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-02 21:29:20
+ * @LastEditTime: 2019-06-05 10:30:23
  */
 
-let  songSheetDao = require('../../dao/song_sheet_dao');
+let  songSheetDao = require('../../dao/songSheetDao');
+const  ERR = require('../../errorResource');
 
 class PlayList {
 
@@ -18,9 +19,9 @@ class PlayList {
 
     async getPlayListPaginate (req,res,next){
         const {order,cat,offset=35,limit=35} = req.query;
+        console.log(order,cat,offset,limit);
         try{
            await songSheetDao.findPlayListPaginatet(order,cat,offset,limit).then((data)=>{
-                console.log(data);
                 if(!data.err){
                     res.send({
                         code:200,
@@ -29,9 +30,9 @@ class PlayList {
                     });
                 }else{
                     res.send({
-                        code:200,
+                        code:400,
                         status:0,
-                        data:data
+                        msg:ERR.DATASOURCE_ERR
                     });
                 }
            });
@@ -40,7 +41,7 @@ class PlayList {
                 code:400,
                 status:0,
                 type:'PLAYLIST-NOT-FIND',
-                msg:'对不起，歌单查找失败'
+                msg:ERR.FIND_ERR
             })
         }
     }
@@ -61,7 +62,7 @@ class PlayList {
                 code:200,
                 status:0,
                 type:'PLAYLIST-BY-ID-NOT-FIND',
-                msg:'对不起，查找该id的歌单时出错'
+                msg:ERR.FIND_ERR
             })
         }
     }

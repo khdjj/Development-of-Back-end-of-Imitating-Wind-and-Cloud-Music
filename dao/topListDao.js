@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-21 11:15:47
  * @LastEditors: khdjj
- * @LastEditTime: 2019-05-30 11:21:48
+ * @LastEditTime: 2019-06-05 17:21:24
  */
 
 
@@ -14,7 +14,9 @@
  * data 要插入的数据  多条数据
  * callback 回调函数
  */
-var chalk = require('chalk');
+var chalk = require('chalk'),
+    songDao = require('./songDao');
+let topListModel = require('../models/topListModels');
 exports.insertMany = function (model, data, callback) {
 
     let topList = new model({
@@ -31,3 +33,23 @@ exports.insertMany = function (model, data, callback) {
         }
     })
 }
+
+exports.findTopListByName = async function(name,offset,limit){
+    let song =  [];
+    let promise = [];
+    try{
+        let toplist =  await topListModel.find({"top_name":{"$in":name}},{"_id":0,});
+        for(let i=0;i<toplist.length;i++){
+            song.push(await songDao.findByIds(toplist[i].song_list,offset,limit));
+        }
+            return {
+                topList:toplist,
+                songIds:song
+            }
+    }catch(err){
+        return {
+            err:err
+        }
+    }
+}
+
