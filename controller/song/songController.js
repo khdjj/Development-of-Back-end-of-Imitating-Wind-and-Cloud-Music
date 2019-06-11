@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-02 10:39:30
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-06 20:14:28
+ * @LastEditTime: 2019-06-10 16:09:09
  */
 
 let  songDao = require('../../dao/songDao'),
@@ -17,8 +17,7 @@ class Song {
         this.getSongLyric = this.getSongLyric.bind(this);
     }
     async getSongByIds (req,res,next){
-        const {ids,offset=0,limit=10} = req.query;
-        console.log(ids,offset,limit);
+        const {ids,offset=0,limit=10} = req.body;
         try{
            await songDao.findByIds(ids,offset,limit).then((data)=>{
                 if(!data.err){

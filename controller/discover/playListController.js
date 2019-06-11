@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-02 10:39:30
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-05 10:30:23
+ * @LastEditTime: 2019-06-09 21:37:09
  */
 
 let  songSheetDao = require('../../dao/songSheetDao');
@@ -40,13 +40,12 @@ class PlayList {
             res.send({
                 code:400,
                 status:0,
-                type:'PLAYLIST-NOT-FIND',
                 msg:ERR.FIND_ERR
             })
         }
     }
     async getPlayListById (req,res,next){
-        const id = req.query;
+        const {id} = req.query;
         if(!id){
             res.send({
                 code:400,
@@ -56,12 +55,25 @@ class PlayList {
             })
         }
         try{
-            await songSheetDao.findPlayListById(id);
+            await songSheetDao.findPlayListById(id).then((data)=>{
+                if(!data.err){
+                    res.send({
+                        code:200,
+                        status:1,
+                        data:data
+                    });
+                }else{
+                    res.send({
+                        code:400,
+                        status:0,
+                        msg:ERR.DATASOURCE_ERR
+                    })
+                }
+            });
         }catch(err){
             res.send({
-                code:200,
+                code:400,
                 status:0,
-                type:'PLAYLIST-BY-ID-NOT-FIND',
                 msg:ERR.FIND_ERR
             })
         }

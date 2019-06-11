@@ -4,13 +4,13 @@
  * @Author: khdjj
  * @Date: 2019-05-30 14:59:34
  * @LastEditors: khdjj
- * @LastEditTime: 2019-05-31 10:12:41
+ * @LastEditTime: 2019-06-09 20:48:29
  */
 
 let superagent = require('superagent'),
     cheerio = require('cheerio'),
-    songSheetDao = require('../dao/song_sheet_dao'),
-    songDao = require('../dao/song_dao'),
+    songSheetDao = require('../dao/songSheetDao'),
+    songDao = require('../dao/songDao'),
     db = require('../mongodb/db'),
     chalk = require('chalk'),
     decryptData = require('../encryption/decryption_song_sheet');
@@ -18,7 +18,7 @@ let superagent = require('superagent'),
 
 //打开数据库
 db.openDataSource();
-let url = 'https://music.163.com/discover/playlist',
+let url = 'https://music.163.com/discover/playlist/?order=hot&cat=%E5%85%A8%E9%83%A8&limit=35&offset=105',
     BaseUrl = 'https://music.163.com/';
 //爬取歌单网页
 superagent
@@ -64,7 +64,7 @@ function saveSongSheet(songSheetData) {
  */
 async function readDetailData(urlList) {
     return new Promise((resolve, reject) => {
-        for (let i = 2; i < urlList.length; i++) {
+        for (let i = 1; i < urlList.length; i++) {
             setTimeout(function () {
                 superagent
                     .get(BaseUrl + urlList[i])

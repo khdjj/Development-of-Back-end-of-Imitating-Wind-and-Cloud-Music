@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-21 11:15:47
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-05 17:21:24
+ * @LastEditTime: 2019-06-11 10:30:16
  */
 
 
@@ -38,7 +38,7 @@ exports.findTopListByName = async function(name,offset,limit){
     let song =  [];
     let promise = [];
     try{
-        let toplist =  await topListModel.find({"top_name":{"$in":name}},{"_id":0,});
+        let toplist =  await topListModel.find({"top_name":{"$in":name}},{"_id":0});
         for(let i=0;i<toplist.length;i++){
             song.push(await songDao.findByIds(toplist[i].song_list,offset,limit));
         }
@@ -46,6 +46,15 @@ exports.findTopListByName = async function(name,offset,limit){
                 topList:toplist,
                 songIds:song
             }
+    }catch(err){
+        return {
+            err:err
+        }
+    }
+}
+exports.findAllTopList = function(){
+    try{
+        return topListModel.find({},{song_list:0,_id:0,_v:0});
     }catch(err){
         return {
             err:err

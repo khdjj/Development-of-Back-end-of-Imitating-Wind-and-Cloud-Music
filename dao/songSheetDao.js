@@ -42,7 +42,13 @@ exports.findPlayListPaginatet = async function(order,cat,offset,limit){
     return await songSheetModel.findPlayListPaginatet(order,cat,offset,limit);
 }
 exports.findPlayListById = function(id){
-
+    try{
+        return  songSheetModel.find({id:id},{_id:0});
+    }catch(err){
+        return {
+            err:err
+        }
+    }
 }
 
 
