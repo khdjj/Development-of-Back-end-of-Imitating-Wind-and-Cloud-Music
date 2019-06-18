@@ -4,19 +4,19 @@
  * @Author: khdjj
  * @Date: 2019-05-22 16:09:06
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-02 22:06:10
+ * @LastEditTime: 2019-06-13 19:24:26
  */
 
 
 var cheerio = require('cheerio'),
-    songModel = require('../models/song'),
-    songDao = require('../dao/song_dao'),
+    songModel = require('../models/songModels'),
+    songDao = require('../dao/songDao'),
     superagent = require('superagent'),
     encryption = require('../encryption/encryption_song'),
     db = require('../mongodb/db'),
     chalk = require('chalk'),
-    topListdao = require('../dao/toplist_dao'),
-    topListModel = require('../models/toplist')
+    topListdao = require('../dao/topListDao'),
+    topListModel = require('../models/topListModels')
 // superagent_proxy = require('superagent-proxy')(superagent)
 //    userAgents = require('../userAgent/userAgent'),
 
@@ -52,11 +52,12 @@ function start(url) {
                 let topList = new Array();
                 $('.mine').each(function () {
                     let $this = $(this);
+                    let id = $this.attr('data-res-id');
                     let avator = $this.find('a.avatar>img').attr('src');
                     let url = baseurl + $this.find('a.avatar').attr('href');
                     let topname = $this.find('.name>a').text();
-
                     topList.push({
+                        id: id,
                         avator: avator,
                         url: url,
                         topname: topname
@@ -73,39 +74,45 @@ start("https://music.163.com/discover/toplist");
 
 function readTopListData(topList) {
 
-    console.log(chalk.red('readTopList'));
-    console.log(chalk.blue(topList[1].url));
-    console.log(chalk.blue(topList.length));
     let promise = new Array();
-    for (let i = 0; i < topList.length; i++) {
-        superagent
-            .get(topList[i].url)
-            .set({
-                'upgrade-insecure-requests': 1,
-                'user-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
-                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                'accept-encoding': 'gzip, deflate, br',
-                'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
-                'cache-control': 'max-age=0'
-            }).end(function (err, res) {
-                if (err) {
-                    console.log("请求网址错误");
-                    console.log(err);
-                } else {
-                    let html;
-                    let href = [];
-                    html = res.text;
-                    let $ = cheerio.load(html);
-                    let ListData = $('#song-list-pre-data').text();
-                    //读取真正的内容信息并存入数据库
-                    let songData = new Array();
-                    let songIdData = new Array();
-                    readSongData(ListData, songData, songIdData).then(function () {
-                        saveData(songData, songIdData, topList[i]);
+    let timer = null;
+    let i = 3;
+    for (; i < topList.length; i++) {
+        (function (i) {
+            setTimeout(function(){
+                console.log(i);
+                superagent
+                    .get(topList[i].url)
+                    .set({
+                        'upgrade-insecure-requests': 1,
+                        'user-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
+                        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                        'accept-encoding': 'gzip, deflate, br',
+                        'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+                        'cache-control': 'max-age=0'
+                    }).end(function (err, res) {
+                        if (err) {
+                            console.log("请求网址错误");
+                            console.log(err);
+                        } else {
+                            let html;
+                            let href = [];
+                            html = res.text;
+                            let $ = cheerio.load(html);
+                            let ListData = $('#song-list-pre-data').text();
+                            //读取真正的内容信息并存入数据库
+                            let songData = new Array();
+                            let songIdData = new Array();
+                            readSongData(ListData, songData, songIdData).then(function () {
+                                saveData(songData, songIdData, topList[i]);
+                            });
+                        }
                     });
-                }
-            });
+            }, i * 2000);
+        })(i);
+
     };
+
 
 }
 
@@ -114,6 +121,7 @@ function saveData(songData, songIdData, topList) {
 
     songDao.insertMany(songData);
     topListdao.insertMany(topListModel, {
+        id: topList.id,
         cover: topList.avator, //封面图片地址
         top_name: topList.topname, //排行榜名称 如飙升榜、热歌榜
         song_list: songIdData
@@ -134,8 +142,8 @@ async function readSongData(ListData, songData, songIdData) {
         lyric;
     ListData = JSON.parse(ListData);
 
-    for (let i = 0; i <50; i++) {
-       let  artist_names = [],
+    for (let i = 0; i < 100; i++) {
+        let artist_names = [],
             artist_ids = [];
         song_id = ListData[i].id;
         songIdData.push({ song_id: song_id });
@@ -240,12 +248,12 @@ function getSongLyric(id) {
                     } else {
                         let data = JSON.parse(res.text);
 
-                        if(typeof data.lrc.lyric=='undefined'){
+                        if (typeof data.lrc.lyric == 'undefined') {
                             resolve("未知");
                         }
                         else {
                             lyric = data.lrc.lyric;
-                             resolve(lyric);
+                            resolve(lyric);
                         }
                     }
                 });

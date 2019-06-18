@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-21 11:15:47
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-11 10:30:16
+ * @LastEditTime: 2019-06-13 19:05:45
  */
 
 
@@ -20,6 +20,7 @@ let topListModel = require('../models/topListModels');
 exports.insertMany = function (model, data, callback) {
 
     let topList = new model({
+        id:data.id,
         cover: data.cover, //封面图片地址
         top_name: data.top_name, //排行榜名称 如飙升榜、热歌榜
         song_list: data.song_list

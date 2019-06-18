@@ -3,12 +3,12 @@ let cheerio = require('cheerio'),
     encryption = require('../encryption/encryption_song'),
     chalk = require('chalk');
 
+require('superagent')(superagent);
+
 exports.getSongUrl = function (id) {
-    console.log(id);
     return new Promise((resolve, reject) => {
         let url = "http://music.163.com/weapi/song/enhance/player/url?csrf_token=";
         let d = encryption.aes(id, 'song');
-        console.log(id);
         let song_url;
         superagent
             .post(url)
@@ -25,7 +25,7 @@ exports.getSongUrl = function (id) {
                 if (err) {
                     console.log("请求错误");
                     console.log(err);
-                    reject();
+                    reject("数据请求错误");
                 } else {
                     console.log(res.text);
                     try {

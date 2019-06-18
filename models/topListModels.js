@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-19 10:31:49
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-05 10:15:18
+ * @LastEditTime: 2019-06-13 18:44:10
  */
 
 
@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const toplistSchema  = new Schema({
+   id:{type:String,index:true},
    cover:String, //封面图片地址
    top_name:String, //排行榜名称 如飙升榜、热歌榜
    song_list:[
