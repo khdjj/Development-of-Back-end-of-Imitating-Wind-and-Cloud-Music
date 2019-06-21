@@ -1,17 +1,30 @@
 let superagent = require('superagent'),
     encryption = require('../encryption/encryption_song'),
     comments = require('../spiderData/CommentData.json'),
+    ipDao = require('../dao/ipDao'),
     chalk = require('chalk');
-exports.getSOComments = function (id, limit = 20, offset = 0) {
+require('superagent-proxy')(superagent);
+
+// let ip;
+// ipDao.getIp().then(data=>{
+//     ip = data;
+// })
+
+
+let getSOComments = function (id, limit = 20, offset = 0) {
     let url = "https://music.163.com/weapi/v1/resource/comments/R_SO_4_" + id + "?csrf_token=";
     let d = encryption.aes(id, 'songComment', limit, offset);
+    // ip = ip || '112.95.205.50:8888';
+    // console.log(ip);
     return new Promise((resolve, reject) => {
         superagent
             .post(url)
+            // .proxy(`http://${ip}`)
             .send({
                 params: encodeURI(d.encText),
                 encSecKey: encodeURI(d.encSecKey)
             })
+            .timeout({ response: 9000})
             .set({
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Origin': 'https://music.163.com',
@@ -20,9 +33,15 @@ exports.getSOComments = function (id, limit = 20, offset = 0) {
             }).end(function (err, res) {
                 if (err) {
                     console.log("评论请求错误");
-                    reject("err");
+                    // if(err.errno == 'ETIMEDOUT'){
+                    //     ipDao.getIp().then((data)=>{
+                    //         ip = data;
+                    //         getSOComments(id,limit,offset);
+                    //     });  
+                    // }
                 } else {
                     try {
+                        console.log(res.text);
                         resolve(JSON.parse(res.text));
                     } catch (err) {
                         reject("err");
@@ -30,18 +49,19 @@ exports.getSOComments = function (id, limit = 20, offset = 0) {
                 }
             });
     })
-
 }
-exports.getPYComments = function (id, limit = 20, offset = 0) {
+let getPYComments = function (id, limit = 20, offset = 0) {
     let url = "https://music.163.com/weapi/v1/resource/comments/A_PL_0_" + id + "?csrf_token=";
     let d = encryption.aes(id, 'playListComment', limit, offset);
    return new Promise((resolve, reject) => {
         superagent
             .post(url)
+            // .proxy(`http://${ip}`)
             .send({
                 params: encodeURI(d.encText),
                 encSecKey: encodeURI(d.encSecKey)
             })
+            .timeout({ response: 9000})
             .set({
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Origin': 'https://music.163.com',
@@ -50,7 +70,12 @@ exports.getPYComments = function (id, limit = 20, offset = 0) {
             }).end(function (err, res) {
                 if (err) {
                     console.log("评论请求错误");
-                    reject("err");
+                    // if(err.errno == 'ETIMEDOUT'){
+                    //     ipDao.getIp().then((data)=>{
+                    //         ip = data;
+                    //         getPYComments(id,limit,offset);
+                    //     });  
+                    // }
                 } else {
                     try {
                         resolve(JSON.parse(res.text));
@@ -60,13 +85,8 @@ exports.getPYComments = function (id, limit = 20, offset = 0) {
                 }
             });
     })
-
 }
-exports.getTestComments = function (id, limit = 20, offset = 0) {
-    let url = "https://music.163.com/weapi/v1/resource/comments/A_PL_0_" + id + "?csrf_token=";
-    let d = encryption.aes(id, 'playListComment', limit, offset);
-   return new Promise((resolve, reject) => {
-      resolve(comments);
-    });
+module.exports = {
+    getSOComments,
+    getPYComments
 }
-// getSOComments('239682',20,0);

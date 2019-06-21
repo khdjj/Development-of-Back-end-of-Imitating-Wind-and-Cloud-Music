@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-12 19:28:19
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-13 20:03:13
+ * @LastEditTime: 2019-06-19 18:38:40
  */
 
 let model = require('../models/commentModels'),
@@ -29,18 +29,18 @@ saveComments = function (id, data) {
 
     model.insertMany(data.hotComments, function (err, docs) {
         if (err) {
-            console.log(chalk.red('插入多份歌单数据错误'));
+            console.log(chalk.red('插入多份评论数据错误'));
             console.log(chalk.red(err));
         } else {
-            console.log(chalk.green('插入多份歌单数据成功'));
+            console.log(chalk.green('插入多份评论数据成功'));
         }
     });
     model.insertMany(data.comments, function (err, docs) {
         if (err) {
-            console.log(chalk.red('插入多份歌单数据错误'));
+            console.log(chalk.red('插入多份评论数据错误'));
             console.log(chalk.red(err));
         } else {
-            console.log(chalk.green('插入多份歌单数据成功'));
+            console.log(chalk.green('插入多份评论数据成功'));
         }
     });
 

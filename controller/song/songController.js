@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-02 10:39:30
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-10 16:09:09
+ * @LastEditTime: 2019-06-19 09:37:12
  */
 
 let  songDao = require('../../dao/songDao'),
@@ -43,7 +43,6 @@ class Song {
         }
     }
     async getSongUrl(req,res,next){
-        console.log(req.query);
         let {id=''} = req.query;
         console.log(id);
         if(!id){

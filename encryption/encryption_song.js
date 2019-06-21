@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-20 15:26:12
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-12 09:41:41
+ * @LastEditTime: 2019-06-19 13:43:08
  */
 
 'use strict'
@@ -19,9 +19,9 @@ exports.aes = function (id, type, limit, offset) {
         rand,
         data;
     if (type == 'song') {
-        data = `{"ids":"[${id}]","br":128000,"csrf_token":""}`
-        rand = 'a8LWv2uAtXjzSfkQ';
-        encSecKey = '2d48fd9fb8e58bc9c1f14a7bda1b8e49a3520a67a2300a1f73766caee29f2411c5350bceb15ed196ca963d6a6d0b61f3734f0a0f4a172ad853f16dd06018bc5ca8fb640eaa8decd1cd41f66e166cea7a3023bd63960e656ec97751cfc7ce08d943928e9db9b35400ff3d138bda1ab511a06fbee75585191cabe0e6e63f7350d6';
+        data = `{"encodeType":"aac","ids":"[${id}]","csrf_token":"","level":"standard"}`
+        rand = 'YWuHRHqSLsNt0AP3';
+        encSecKey = 'b5bff26f3a9b71e099e062e2a6f35fc9a23722ca891be869bd372b80f262236cef1a4169400b914837f3dfa71d8651e26e6708e76c26f57b5bad8b85575080d11ba68dc916e9cbea6cf95d9d5bfb89fcb8915f8b37f57d4376ea46c7c967d110c5c9e0e8fbf7889e30ab1ebce96a396197f780d525b76dc927d094ff01ca2a93';
     } else if (type == 'lyric') {
         data = `{csrf_token:"",id:${id},lv:-1,tv:-1}`;
         encSecKey = '041f44920916a3c9158fa40d9f313ba49d89b776de0f1b6ec775bfc3e3ef59951ce5c0bf849500dbc02cbaf26664bbce0b70ad99abb434b6adc711df72c863a4d31304feb109a4b7a104b10d91b13089d523cccbca20d807ade673c5c28a99ad70574798771d03f671e91f0eb395284a49b59ee2f578af53ff9be97aaeb8efb4';

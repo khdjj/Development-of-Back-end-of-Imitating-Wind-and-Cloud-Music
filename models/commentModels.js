@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-11 19:47:50
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-13 20:06:10
+ * @LastEditTime: 2019-06-19 21:14:25
  */
 
 let mongoose = require('mongoose'),
@@ -24,7 +24,7 @@ let commentSchema = new Schema({
                 authStatus: Number,
                 avatarUrl: String,//用户的头像
                 expertTags: Object,
-                experts: String,
+                experts: Object,
                 liveInfo: String,
                 locationInfo: String,
                 nickname: String,//用户名称
@@ -47,12 +47,12 @@ let commentSchema = new Schema({
     repliedMark: Boolean,
     showFloorComment: Object,
     status: Number,
-    time: String,
+    time: Number,
     user:{
         authStatus: Number,
         avatarUrl: String,//用户的头像
         expertTags: Object,
-        experts: String,
+        experts: Object,
         liveInfo: String,
         locationInfo: String,
         nickname: String,//用户名称
