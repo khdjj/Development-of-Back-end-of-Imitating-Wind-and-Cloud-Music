@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-02 10:39:30
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-19 09:37:12
+ * @LastEditTime: 2019-06-22 10:45:27
  */
 
 let  songDao = require('../../dao/songDao'),
@@ -44,7 +44,6 @@ class Song {
     }
     async getSongUrl(req,res,next){
         let {id=''} = req.query;
-        console.log(id);
         if(!id){
             res.send({
                 code:400,
@@ -78,7 +77,7 @@ class Song {
             });
         }
         try{
-            await  getSongData.getSongLyric(id).then((data)=>{
+            await  songDao.findLyric(id).then((data)=>{
                 console.log(data);
                 res.send({
                     code:200,

@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-20 14:39:11
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-05 17:23:13
+ * @LastEditTime: 2019-06-22 10:49:51
  */
 
 
@@ -15,8 +15,10 @@
  * callback 回调函数
  */
 
-let songModel = require('../models/songModels');
-var chalk = require('chalk');
+let songModel = require('../models/songModels'),
+    chalk = require('chalk'),
+    getSongData = require('../getByCloudMusic/getSongData');
+ 
 exports.insertMany = function(data,callback){
     songModel.insertMany(data,function(err,docs){
         if(err){
@@ -42,4 +44,28 @@ exports.findByIds =async function(song_ids,offset,limit){
             err:err
         }
     }
+}
+
+function saveLyric(id,lyric){
+    songModel.updateOne({"song_id":id},{$set:{"lyric":lyric}},function(err,doc){
+        if(err){
+            console.log(chalk.red("插入歌词数据失败"));
+            console.log(chalk.red(err));
+        }else{
+            console.log(chalk.green("插入歌词数据成功"));
+        }
+    })
+}
+
+exports.findLyric = async function(id){
+    let lyric ;
+    data = await songModel.find({"song_id":id},{lyric:1});
+    //写爬虫时，lyric的默认值不小心写成了function Strig(){[native code]}
+    lyric = data[0].lyric;
+    if(!lyric || lyric== "function String() { [native code] }"){
+        console.log("no lyric");
+        lyric = await getSongData.getSongLyric(id);
+        saveLyric(id,lyric)
+    }
+    return lyric;
 }
