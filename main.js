@@ -8,6 +8,7 @@ let db = require('./mongodb/db'),
     chalk = require('chalk');
 db.openDataSource();
 const app = express();
+app.use(cookParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.all('*',(req,res,next)=>{
@@ -21,7 +22,6 @@ app.all('*',(req,res,next)=>{
     next();
 });
 router.routes(app);
-app.use(cookParser);
 app.use(session({
     name: config.session.name,
 	secret: config.session.secret,

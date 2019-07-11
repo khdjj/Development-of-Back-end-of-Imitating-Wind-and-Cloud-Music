@@ -43,7 +43,9 @@
     "mongoose": "5.5.8",
     "node-rsa": "1.0.5",
     "body-parser":"1.19.0",
-    "superagent-proxy":"2.0.0"
+    "superagent-proxy":"2.0.0",
+    "nodemailer":"6.1.1",
+    "nodemailer-smtp-transport":"2.7.4"
   },
   "devDependencies": {
     "nodemon": "^1.18.6"
