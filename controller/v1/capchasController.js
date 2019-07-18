@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-26 15:03:05
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-27 11:20:47
+ * @LastEditTime: 2019-07-12 21:02:38
  */
 
 let nodemailer = require('nodemailer'),
@@ -28,7 +28,7 @@ class Capchas {
         console.log(req.cookies);
         // let { email } = req.query;
         let code = parseInt(Math.random() * 800000 + 100000);
-        res.cookie('code',code,{maxAge:600000,httpOnly:true});
+        res.cookie('code',code,{maxAge:120000,httpOnly:true});
         console.log(code);
         // try{
         //     this.mailTransport.sendMail({

@@ -9,5 +9,8 @@ module.exports = {
     "IMG_FORMAT_ERR":"对不起,图片格式错误",
     "USER_ID_INVALID":"用户id失效，请重新登录",
     "IMG_UPLOAD_ERR":"对不起，图片上传失败",
-    "USER_DATA_SAVE_ERR":"对不起，数据存储错误"
+    "USER_DATA_SAVE_ERR":"对不起，数据存储错误",
+    "LOGIN_ERR":"对不起，登录失败",
+    "EMAIL_REGISTERED":"对不起,邮箱已被注册",
+    "ACCOUNT_EXIST":"对不起，用户名已存在"
 }

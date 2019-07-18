@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-26 19:50:58
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-28 21:41:19
+ * @LastEditTime: 2019-07-13 19:18:21
  */
 
 let userModel = require('../models/userModels'),
@@ -60,4 +60,12 @@ exports.saveUsersData = async function(nickname,desc,sex,userId){
             console.log(chalk.green("插入用户信息成功"));
         }
      })
+}
+
+exports.loginUser = async function(email,pwd){
+    return await userModel.findOne({email:email,pwd:pwd},{_id:0});
+}
+
+exports.emailisAvailable = async function(email){
+    return await userModel.findOne({email:email});
 }

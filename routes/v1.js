@@ -8,5 +8,6 @@ router.get('/getCaptchas',capchas.getCapchas);
 router.get('/register',user.register);
 router.post('/users/avatar',user.updateAvatar);
 router.get('/search/nickname',user.searchBynickname);
+router.post('/users/improve',user.improve);
 router.post('/users/login',user.login);
 exports.router = router;
