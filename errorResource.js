@@ -12,5 +12,6 @@ module.exports = {
     "USER_DATA_SAVE_ERR":"对不起，数据存储错误",
     "LOGIN_ERR":"对不起，登录失败",
     "EMAIL_REGISTERED":"对不起,邮箱已被注册",
-    "ACCOUNT_EXIST":"对不起，用户名已存在"
+    "ACCOUNT_EXIST":"对不起，用户名已存在",
+    "SEARCH_ERROR":"对不起，搜索数据错误 "
 }

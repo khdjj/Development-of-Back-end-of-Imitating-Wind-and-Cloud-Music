@@ -4,15 +4,24 @@
  * @Author: khdjj
  * @Date: 2019-05-20 15:26:12
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-19 13:43:08
+ * @LastEditTime: 2019-07-20 10:22:24
  */
 
 'use strict'
 
+
+exports.getSearchData = function(type,s,limit,offset){
+    let data = `{"csrf_token":"","hlposttag":"</span>","hlpretag":"<span class='s-fc7'>","limit":"${limit}","offset":"${offset}","s":"${s}","total":"true","type":"${type}"}`,
+        rand ="8Nb0yBH0GKTKhom4",
+        encSecKey = "043ab1b3ccb22ab76bf6b648d3e9adba255df4360befd419f63874c0ab17d8cbf0db5bc62f426b579b27d6fe2aa0a9c7d8cbf3d052d30ae883f2890064f42faf7cb79100b6c65139aa54f2b0bc53bd8c2cd3f78eee12be1366a8bbb26744da487b0257aca6c5f29189295e7a73bc47d6fcc03bbc960072c2da5e4620beb08450";
+        console.log(JSON.parse(data));
+        return d(data, '0CoJUm6Qyw8W8jud', rand, encSecKey);
+ }
+
 var crypto = require('crypto');
 /**
  * id 为歌曲的id
- * type类型 song  歌曲 lyric 歌词
+ * type类型 song  歌曲 lyric 歌词,评论,歌单
 */
 exports.aes = function (id, type, limit, offset) {
     var encSecKey,

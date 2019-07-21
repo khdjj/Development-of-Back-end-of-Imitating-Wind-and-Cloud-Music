@@ -1,0 +1,115 @@
+{
+    "result": {
+        "albums": [
+            {
+                "name": "陪你度过漫长岁月",
+                "id": 3319407,
+                "type": "EP/Single",
+                "size": 1,
+                "picId": 3438172860758204,
+                "blurPicUrl": "https://p1.music.126.net/qW4N08_Q8PSePV7iewwvHg==/3438172860758204.jpg",
+                "companyId": 0,
+                "pic": 3438172860758204,
+                "picUrl": "https://p1.music.126.net/qW4N08_Q8PSePV7iewwvHg==/3438172860758204.jpg",
+                "publishTime": 1444752000007,
+                "description": "",
+                "tags": "",
+                "company": "环球唱片",
+                "briefDesc": "",
+                "artist": {
+                    "name": "陈奕迅",
+                    "id": 2116,
+                    "picId": 18641120139241412,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "https://p1.music.126.net/nILBk4DaE3yV__25uq-5GQ==/18641120139241412.jpg",
+                    "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 102,
+                    "alias": [
+                        "Eason Chan"
+                    ],
+                    "trans": "",
+                    "musicSize": 1623,
+                    "picId_str": "18641120139241412"
+                },
+                "songs": [],
+                "alias": [
+                    "电影《陪安东尼度过漫长岁月》主题曲"
+                ],
+                "status": 0,
+                "copyrightId": 7003,
+                "commentThreadId": "R_AL_3_3319407",
+                "artists": [
+                    {
+                        "name": "陈奕迅",
+                        "id": 2116,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0
+                    }
+                ]
+            },
+            {
+                "name": "安东尼",
+                "id": 34592455,
+                "type": "EP/Single",
+                "size": 6,
+                "picId": 109951163081236313,
+                "blurPicUrl": "https://p1.music.126.net/NGJ65j_RCtptODmAPl1CYg==/109951163081236313.jpg",
+                "companyId": 0,
+                "pic": 109951163081236313,
+                "picUrl": "https://p1.music.126.net/NGJ65j_RCtptODmAPl1CYg==/109951163081236313.jpg",
+                "publishTime": 1459391477167,
+                "description": "",
+                "tags": "",
+                "company": null,
+                "briefDesc": "",
+                "artist": {
+                    "name": "鲍文洋",
+                    "id": 1023123,
+                    "picId": 109951163342070967,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "https://p1.music.126.net/BOlEqxAIeixV4uhQfsfy_w==/109951163342070967.jpg",
+                    "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 16,
+                    "alias": [
+                        "包子"
+                    ],
+                    "trans": "",
+                    "musicSize": 69,
+                    "picId_str": "109951163342070967"
+                },
+                "songs": [],
+                "alias": [],
+                "status": 1,
+                "copyrightId": 0,
+                "commentThreadId": "R_AL_3_34592455",
+                "artists": [
+                    {
+                        "name": "鲍文洋",
+                        "id": 1023123,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0
+                    }
+                ],
+                "picId_str": "109951163081236313"
+            }
+        ],
+        "albumCount": 2
+    },
+    "code": 200
+}
