@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-25 21:27:42
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-26 20:24:20
+ * @LastEditTime: 2019-07-27 20:34:39
  */
 
  "use strict"
@@ -25,7 +25,17 @@ let userSchema = new Schema({
     isqq:Boolean,//是否是qq
     iswb:Boolean,//是否是微信
     qq:String,//qq帐号
-    wb:String//微薄帐号
+    wb:String,//微薄帐号
+    col_playlists:[{
+        playList_id:String
+    }],//收藏歌单id
+    comment_id:[{
+        commet_id:String
+    }],//评论id
+    current_songId:String,//当前听的歌曲id
+    current_playlists:[{
+        song_id:String
+    }]//当前所听歌曲歌单
 })
 
 const user = mongoose.model('user',userSchema);

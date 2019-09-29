@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-30 10:54:49
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-03 14:37:22
+ * @LastEditTime: 2019-07-27 17:38:33
  */
 
 
@@ -15,12 +15,13 @@ const Schema = mongoose.Schema;
 
 const songSheetSchema = new Schema({
     id:{type:String,index:true},
-    img:String,//歌单图片
-    play_num:String ,//播放数
-    name:String,//歌单名称
-    create_time:String,//歌单创建时间
-    creator:String,//歌单创建者
-    creator_avatar:String,//创建者头像
+    img:{type:String,default:''},//歌单图片
+    play_num:{type:Number,default:0} ,//播放数
+    name:{type:String,default:''},//歌单名称
+    create_time:{type:String,default:''},//歌单创建时间
+    creator:{type:String,default:''},//歌单创建者,
+    creator_id:{type:String,default:''},//歌单创建者id
+    creator_avatar:{type:String,default:''},//创建者头像
     label:[ //标签
         {cat:String}
     ],

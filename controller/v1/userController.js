@@ -4,13 +4,15 @@
  * @Author: khdjj
  * @Date: 2019-06-26 19:22:12
  * @LastEditors: khdjj
- * @LastEditTime: 2019-07-13 20:36:49
+ * @LastEditTime: 2019-08-04 16:59:31
  */
 
 const ERR = require('../../errorResource');
 let dao = require('../../dao/userDao'),
     getpath = require('../../service/getpath'),
-    UUID = require('../../service/getUUID');
+    dataEncPro = require('../../service/encUserData'),
+    UUID = require('../../service/getUUID'),
+    getUserId = require('../../service/getUser');
 
 class User {
     constructor() {
@@ -20,8 +22,11 @@ class User {
         this.improve = this.improve.bind(this);
         this.login = this.login.bind(this);
     }
+
+    /**
+     * 注册
+     */
     async register(req, res, next) {
-        console.log(req.cookies.code);
         //判断验证码是否已过期
         if (!req.cookies.code) {
             res.send({
@@ -54,28 +59,22 @@ class User {
                 });
                 return ;
             }
-            //将userId存储在cookie中
-            res.cookie('userId', userId, { maxAge: 600000, httpOnly: true });
             dao.insertUser(email, pwd, userId).then((data) => {
                 console.log(data);
                 if (!data) {
                     res.send({
                         code: 200,
                         msg: "注册成功",
-                        userId:userId
                     })
                 }
             })
         }
     }
+    /**
+     * 修改用户头像
+     */
     async updateAvatar(req, res, next) {
-        if(!req.cookies.userId){
-            res.send({
-                code:400,
-                msg:ERR.USER_ID_INVALID
-            })
-        }
-        let userId = req.cookies.userId;
+        let userId = getUserId(req);
         let imgpath = await getpath(req, res);
         try {
             dao.updateAvatar(userId, imgpath).then(() => {
@@ -93,6 +92,9 @@ class User {
             })
         }
     }
+    /**
+     * 通过用户名搜索用户
+     */
     async searchBynickname(req, res, next) {
         const { nickname } = req.query;
         if (!nickname) {
@@ -125,18 +127,14 @@ class User {
             });
         }
     }
+    /**
+     * 修改用户资料
+     */
     async improve(req,res,next){
-        if(!req.cookies.userId){
-            res.send({
-                code:400,
-                msg:ERR.USER_ID_INVALID
-            });
-        }
-        let userId = req.cookies.userId;
-
+        
+        let userId = getUserId(req);
         console.log(userId);
         const {nickname,desc,sex} = req.body;
-        console.log(req.body);
         try{
             dao.saveUsersData(nickname,desc,sex,userId).then(()=>{
                 res.send({
@@ -151,19 +149,25 @@ class User {
             })
         }
     }
+
+    /**
+     * 登录
+     */
+
     async login(req,res,next){
         const {email,pwd} = req.body;
         console.log(email,pwd);
         try{
             dao.loginUser(email,pwd).then((data)=>{
-                console.log(data);
                 if(data){
-                    res.cookie('userId',data.userId,{maxAge:120000,httpOnly:true});
-                    res.send({
-                        code:200,
-                        status:1,
-                        userData:data
-                    })
+                    var token  = dataEncPro.encData(JSON.stringify({userId:data.userId}));
+                    console.log("token\t"+token);
+                        res.send({
+                            code:200,
+                            status:1,
+                            token:token,
+                            userData:data,
+                        })
                 }else{
                     res.send({
                         code:400,
@@ -176,7 +180,7 @@ class User {
             res.send({
                 code:400,
                 status:0,
-                msg:data
+                msg:ERR.DATASOURCE_ERR
             })
         }
     }
