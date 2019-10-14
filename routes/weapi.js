@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: khdjj
+ * @Date: 2019-07-20 10:24:36
+ * @LastEditors: khdjj
+ * @LastEditTime: 2019-07-20 10:24:36
+ */
 const express = require('express'),
       weapi = require('../controller/weapi/weapiController');
 const router = express.Router();
@@ -5,6 +13,8 @@ const router = express.Router();
 router.post('/cloudsearch/get/web',weapi.getSearchData)
 router.post('/playlist/create',weapi.createPlayList);
 router.post('/playlist/getcreateplaylist',weapi.getCreatePlayList);
-router.post('/playlis/update',weapi.updatePlayList);
+router.post('/playlist/update',weapi.updatePlayList);
+router.post('/playlist/addCollection',weapi.addCollection);
+router.post('/playlist/toCollectPlayList',weapi.addPlayListCollection);
 exports.router  = router;
 

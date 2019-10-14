@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-25 21:27:42
  * @LastEditors: khdjj
- * @LastEditTime: 2019-07-27 20:34:39
+ * @LastEditTime: 2019-10-14 10:02:24
  */
 
  "use strict"
@@ -26,8 +26,8 @@ let userSchema = new Schema({
     iswb:Boolean,//是否是微信
     qq:String,//qq帐号
     wb:String,//微薄帐号
-    col_playlists:[{
-        playList_id:String
+    collections:[{
+        collect_id:String
     }],//收藏歌单id
     comment_id:[{
         commet_id:String

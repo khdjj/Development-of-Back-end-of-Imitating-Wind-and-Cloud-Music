@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: khdjj
+ * @Date: 2019-05-31 10:20:26
+ * @LastEditors: khdjj
+ * @LastEditTime: 2019-10-12 22:52:30
+ */
 let songSheetModel = require('../models/songSheetModels'),
     userModel = require('../models/userModels'),
     chalk = require('chalk');
@@ -13,6 +21,20 @@ exports.insertMany = function (data, callback) {
     });
 }
 
+//此函数是将歌曲的id添加进歌单的id中
+exports.addToCollection = function(userid,playlistid,songid){
+    return new Promise((resolve,reject)=>{
+        songSheetModel.updateOne({creator_id:userid,id:playlistid},{$addToSet:{'song_ids':{song_id:songid}}},function(err,docs){
+            if(err){
+                reject("歌曲插入歌单错误");
+                console.log("歌曲插入歌单错误")
+            }else{
+                resolve(docs);
+                console.log("歌曲插入歌单成功");
+            }
+        })
+    })
+}
 
 //此插入函数是专门为爬虫数据建立的函数，用户自建的歌单是另外的函数
 exports.insert = function (data) {
@@ -110,11 +132,34 @@ exports.findPlayListByUserId = function(userId){
     })
 }
 
-exports.updateCoverImg = function(userId,playListId,imgpath){
-    songSheetModel.updateOne({creator_id:userId,id:playListId},{$set:{"img":imgpath}},function(err,docs){
-        if(err){
-            console.log(chalk.red("修改歌单图片错误"));
-            console.log(chalk.red(err));
-        }
-    });
+// exports.updateCoverImg = function(userId,playListId,imgpath){
+//     songSheetModel.updateOne({creator_id:userId,id:playListId},{$set:{"img":imgpath}},function(err,docs){
+//         if(err){
+//             console.log(chalk.red("修改歌单图片错误"));
+//             console.log(chalk.red(err));
+//         }
+//     });
+// }
+
+
+exports.updatePlayList =  function(id,name,label,desc,imgpath){
+    let l = label.split(',');
+    let lbl = [];
+    for(let i = 0;i<l.length;i++){
+        lbl.push({cat:l[i]});
+    }
+    console.log(id);
+    console.log(lbl);
+    return new Promise((resolve,reject)=>{
+         songSheetModel.updateOne({id:id},{$set:{"img":imgpath},"name":name,"desc":desc,"label":lbl},function(err,docs){
+            if(err){
+                console.log(chalk.red("修改歌单数据错误"));
+                reject("修改歌单数据错误");
+            }else{
+                console.log(chalk.blue("修改歌单数据成功"));
+                resolve(docs);
+            }
+        });
+    })
+    
 }

@@ -4,10 +4,11 @@
  * @Author: khdjj
  * @Date: 2019-06-26 19:50:58
  * @LastEditors: khdjj
- * @LastEditTime: 2019-07-27 17:10:28
+ * @LastEditTime: 2019-10-14 10:40:49
  */
 
 let userModel = require('../models/userModels'),
+
     chalk = require('chalk');
 
 exports.insertUser = async function (email, pwd,userId) {
@@ -68,4 +69,18 @@ exports.loginUser = async function(email,pwd){
 
 exports.emailisAvailable = async function(email){
     return await userModel.findOne({email:email});
+}
+
+exports.addToCollectionPlayList = function(userid,playlistid){
+    return new Promise((resolve,reject)=>{
+        userModel.updateOne({userId:userid},{$addToSet:{'collections':{collect_id:playlistid}}},function(err,docs){
+            if(err){
+                reject("歌曲插入歌单错误");
+                console.log("歌曲插入歌单错误")
+            }else{
+                resolve(docs);
+                console.log("歌曲插入歌单成功");
+            }
+        })
+    })
 }

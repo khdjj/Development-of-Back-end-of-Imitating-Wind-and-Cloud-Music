@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-26 15:03:05
  * @LastEditors: khdjj
- * @LastEditTime: 2019-08-04 22:04:17
+ * @LastEditTime: 2019-10-14 10:42:51
  */
 
 let chalk = require('chalk'),
@@ -12,7 +12,9 @@ let chalk = require('chalk'),
     getUserId = require('../../service/getUser'),
     getUUID = require('../../service/getUUID'),
     songSheetDao = require('../../dao/songSheetDao'),
-    spider = require('../../spider/searchSpider');
+    userDao = require('../../dao/userDao'),
+    spider = require('../../spider/searchSpider'),
+    getpath = require('../../service/getpath');
 
 const  ERR = require('../../errorResource');
 
@@ -22,45 +24,92 @@ class Weapi {
       this.getSearchData = this.getSearchData.bind(this);
       this.createPlayList = this.createPlayList.bind(this);
       this.getCreatePlayList = this.getCreatePlayList.bind(this);
-    //   this.updatePlayListCover = this.updatePlayListCover.bind(this);
-    //   this.updatePlayList = this.updatePlayList.bind(this);
-    }
-
-
-
-
-    /**
-     * 修改图片
-     */
-    upatePlayList(req,res,next){
-        const {playListId,playListName,playListLabel,playListDesc,playListImg} = req.body;
-        console.log(playListId,playListName,playListLabel,playListDesc);
+      this.updatePlayList = this.updatePlayList.bind(this);
+      //添加个人创建歌单收藏
+      this.addCollection  =this.addCollection.bind(this);
+      //添加歌单收藏
+      this.addPlayListCollection = this.addPlayListCollection.bind(this);
     }
 
 
     /**
-     * 修改歌单图片
-     * @param {} req 
-     * @param {*} res 
-     * @param {*} next 
+     * 添加歌单收藏
      */
-    async updatePlayListCover(req,res,next){
-        let imgpath = await getpath(req, res);
-        try {
-            songSheetDao.updateAvatar(userId, imgpath).then(() => {
-                res.send({
-                    code: 200,
-                    url: imgpath,
-                    msg: "上传成功"
-                })
+    addPlayListCollection(req,res,next){
+        let userId = getUserId(req);
+        const {playlistid} = req.body;
+        console.log(playlistid);
+        try{
+            userDao.addToCollectionPlayList(userId,playlistid).then(result=>{
+                console.log(result);
+                if(result.ok == 1){
+                    res.send({
+                        code:200,
+                        msg:"收藏歌单成功"
+                    })
+                }
             })
-        } catch (err) {
-            console.log(err);
+        }catch(err){
             res.send({
-                code: 400,
-                msg: ERR.IMG_UPLOAD_ERR
+                code:400,
+                msg:ERR.INSERT_COLLECTION_ERR
             })
         }
+        
+
+
+    }
+
+    /**
+     * 添加歌曲到歌单列表
+     */
+    addCollection(req,res,next){
+        let userId = getUserId(req);
+        const{songid,playlistid} = req.body;
+        console.log(songid,playlistid);
+        try{
+            songSheetDao.addToCollection(userId,playlistid,songid).then(result=>{
+                console.log(result);
+                if(result.ok== 1){
+                    res.send({
+                        code:200,
+                        msg:"收藏进歌单成功"
+                    })
+                }
+            })
+        }catch(err){
+            console.log(chalk.red(err));
+            res.send({
+                code:400,
+                msg:ERR.INSERT_COLLECTION_ERR
+            })
+        }
+    }
+
+
+    /**
+     * 修改歌单所有信息
+     */
+    async updatePlayList(req,res,next){
+        try{
+            let data = await getpath(req, res);
+            console.log(data.imgpath);
+            songSheetDao.updatePlayList(data.fields.id,data.fields.name,data.fields.label,data.fields.desc,data.imgpath).then(result=>{
+                if(result.ok == 1){
+                    res.send({
+                        code:200,
+                        msg:"修改歌单成功",
+                        imgpath:data.imgpath
+                    })
+                }
+            })
+        }catch(err){
+            res.send({
+                code:400,
+                msg:ERR.UPDATE_PLAYLIST_ERR
+            })
+        }
+       
     }
 
 
@@ -147,3 +196,5 @@ exports.getSearchData = weapi.getSearchData;
 exports.createPlayList = weapi.createPlayList;
 exports.getCreatePlayList = weapi.getCreatePlayList;
 exports.updatePlayList = weapi.updatePlayList;
+exports.addCollection = weapi.addCollection;
+exports.addPlayListCollection = weapi.addPlayListCollection;

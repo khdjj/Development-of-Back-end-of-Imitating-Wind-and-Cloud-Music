@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-26 19:22:12
  * @LastEditors: khdjj
- * @LastEditTime: 2019-08-04 16:59:31
+ * @LastEditTime: 2019-10-12 21:48:21
  */
 
 const ERR = require('../../errorResource');
@@ -75,7 +75,8 @@ class User {
      */
     async updateAvatar(req, res, next) {
         let userId = getUserId(req);
-        let imgpath = await getpath(req, res);
+        let data = await getpath(req, res);
+        let imgpath = data.imgpath;
         try {
             dao.updateAvatar(userId, imgpath).then(() => {
                 res.send({

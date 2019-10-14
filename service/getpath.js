@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: khdjj
+ * @Date: 2019-06-27 22:01:49
+ * @LastEditors: khdjj
+ * @LastEditTime: 2019-10-12 21:44:42
+ */
 let formidable = require('formidable'), //处理文件上传模块
     fs = require('fs'),
     path = require('path'),
@@ -6,7 +14,6 @@ const ERR = require('../errorResource');
 
 module.exports = function (req, res) {
     return new Promise((resolve, reject) => {
-        console.log("abc");
         const form = formidable.IncomingForm();
         form.uploadDir = './public/img';
         form.parse(req, function (err, fields, files) {
@@ -31,7 +38,10 @@ module.exports = function (req, res) {
                         reject("图片裁剪失败");
                         console.log(err);
                     }else{
-                        resolve(hashName+extname);
+                        let data = {};
+                        data.imgpath = hashName+extname;
+                        data.fields = fields;
+                        resolve(data);
                     }
                 });
             }catch(err){
