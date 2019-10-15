@@ -163,7 +163,6 @@ class Weapi {
      */
     createPlayList(req,res,next){
         let {name,coverImgUrl,songIds} = req.body;
-        const {authorization} = req.headers;
         let date = format.formatDate(new Date()),
             userId= getUserId(req),
             playListId = getUUID();

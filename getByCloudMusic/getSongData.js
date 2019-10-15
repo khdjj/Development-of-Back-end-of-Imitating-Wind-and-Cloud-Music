@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: khdjj
+ * @Date: 2019-06-06 16:14:48
+ * @LastEditors: khdjj
+ * @LastEditTime: 2019-06-06 16:14:48
+ */
 let superagent = require('superagent'),
     encryption = require('../encryption/encryption_song'),
     ipDao = require('../dao/ipDao');
@@ -32,12 +40,7 @@ let getSongUrl = function (id) {
                 if (err) {
                     console.log("请求错误");
                     console.log(err);
-                    // if(err.errno == 'ETIMEDOUT'){
-                    //     ipDao.getIp().then((data)=>{
-                    //         ip = data;
-                    //         getSongUrl(id);
-                    //     });  
-                    // }
+                    reject(err);
                 } else {
                     console.log(res.text);
                     try {
@@ -75,13 +78,7 @@ let getSongLyric = function (id) {
             }).end(function (err, res) {
                 if (err) {
                     console.log("请求错误");
-                    // if(err.errno == 'ETIMEDOUT'){
-                    //     ipDao.getIp().then((data)=>{
-                    //         console.log(ip);
-                    //         ip = data;
-                    //         getSongLyric(id);
-                    //     });  
-                    // }
+                    reject(err);
                 } else {
                     try{
                         let data = JSON.parse(res.text);

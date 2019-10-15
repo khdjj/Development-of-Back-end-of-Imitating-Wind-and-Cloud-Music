@@ -4,15 +4,35 @@
  * @Author: khdjj
  * @Date: 2019-06-12 19:28:19
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-19 18:38:40
+ * @LastEditTime: 2019-10-15 11:13:23
  */
 
 let model = require('../models/commentModels'),
     getComment = require('../getByCloudMusic/getCommentData'),
-    db = require('../mongodb/db'),
     chalk = require('chalk');
 
 
+    /**
+     * 保存自己的评论
+     */
+
+exports.saveSelfComment = function(com){
+    var comment = new model(com);
+    return new Promise((resolve,reject)=>{
+        comment.save((err,docs)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(docs);
+            }
+        })
+    })
+}
+
+
+/**
+ * 保存来自网上的评论
+ */
 saveComments = function (id, data) {
 
     data.comments.forEach(item => {
@@ -57,6 +77,9 @@ exports.findCommentById = async function (id, type, offset, limit) {
         } else if (type == "playListComment") {
             console.log("playComment");
             CommentsData = await getComment.getPYComments(id, limit, offset);
+        }else if (type == "mvComment"){
+            console.log("mvComment");
+            CommentsData = await getComment.getMVComments(id,limit,offset);
         }
         saveComments(id, CommentsData);
         return CommentsData;

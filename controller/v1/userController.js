@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-26 19:22:12
  * @LastEditors: khdjj
- * @LastEditTime: 2019-10-12 21:48:21
+ * @LastEditTime: 2019-10-15 17:22:38
  */
 
 const ERR = require('../../errorResource');
@@ -21,6 +21,27 @@ class User {
         this.searchBynickname = this.searchBynickname.bind(this);
         this.improve = this.improve.bind(this);
         this.login = this.login.bind(this);
+        this.getCollect = this.getCollect.bind(this);
+    }
+
+    /**
+     * 
+     */
+    getCollect(req,res,next){
+        let userId = getUserId(req);
+        try{
+            dao.findUserCollectSimple(userId).then((result)=>{
+                res.send({
+                    code:200,
+                    results:result
+                })
+            })
+        }catch(err){
+            res.send({
+                code:400,
+                msg:ERR.FIND_COLLECT_LIST_ERR
+            })
+        }
     }
 
     /**
@@ -60,23 +81,25 @@ class User {
                 return ;
             }
             dao.insertUser(email, pwd, userId).then((data) => {
-                console.log(data);
-                if (!data) {
                     res.send({
                         code: 200,
+                        userId:userId,
                         msg: "注册成功",
                     })
-                }
-            })
+                });
+            
         }
     }
     /**
      * 修改用户头像
      */
     async updateAvatar(req, res, next) {
-        let userId = getUserId(req);
         let data = await getpath(req, res);
         let imgpath = data.imgpath;
+        let userId = data.fields.userId;
+        console.log(data);
+        console.log("updateAvatar");
+        console.log(userId);
         try {
             dao.updateAvatar(userId, imgpath).then(() => {
                 res.send({
@@ -132,8 +155,8 @@ class User {
      * 修改用户资料
      */
     async improve(req,res,next){
-        
-        let userId = getUserId(req);
+        console.log("improve");
+        const {userId} = req.body;
         console.log(userId);
         const {nickname,desc,sex} = req.body;
         try{
@@ -193,3 +216,4 @@ exports.updateAvatar = user.updateAvatar;
 exports.searchBynickname = user.searchBynickname;
 exports.improve = user.improve;
 exports.login = user.login;
+exports.getCollect = user.getCollect;

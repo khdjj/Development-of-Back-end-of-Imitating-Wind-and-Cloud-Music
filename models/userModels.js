@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-25 21:27:42
  * @LastEditors: khdjj
- * @LastEditTime: 2019-10-14 10:02:24
+ * @LastEditTime: 2019-10-15 11:25:45
  */
 
  "use strict"
@@ -15,7 +15,7 @@ let userSchema = new Schema({
     userId:{type:String,index:true}, //用户id
     email:String,//用户email
     pwd:String,//用户密码
-    avator:String,//用户头像
+    avatarUrl:String,//用户头像
     age:Number,//用户年龄
     hobby:Object,//用户喜欢的音乐标签
     nickname:String,//昵称
@@ -26,9 +26,7 @@ let userSchema = new Schema({
     iswb:Boolean,//是否是微信
     qq:String,//qq帐号
     wb:String,//微薄帐号
-    collections:[{
-        collect_id:String
-    }],//收藏歌单id
+    collections:[],//收藏歌单id
     comment_id:[{
         commet_id:String
     }],//评论id

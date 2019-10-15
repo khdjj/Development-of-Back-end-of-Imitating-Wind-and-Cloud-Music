@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-02 10:39:30
  * @LastEditors: khdjj
- * @LastEditTime: 2019-06-09 21:37:09
+ * @LastEditTime: 2019-10-15 20:28:12
  */
 
 let  songSheetDao = require('../../dao/songSheetDao');
@@ -15,6 +15,18 @@ class PlayList {
     constructor(){
         this.getPlayListPaginate = this.getPlayListPaginate.bind(this);
         this.getPlayListById = this.getPlayListById.bind(this);
+        this.getPlayListTotal = this.getPlayListTotal.bind(this);
+    }
+
+
+    getPlayListTotal(req,res){
+        console.log("getPlayListTotal");
+        songSheetDao.getTotal().then((result)=>{
+            res.send({
+                code:200,
+                result:result
+            });
+        })
     }
 
     async getPlayListPaginate (req,res,next){
@@ -83,3 +95,4 @@ class PlayList {
 const playList = new PlayList();
 exports.getPlayListPaginate = playList.getPlayListPaginate;
 exports.getPlayListById = playList.getPlayListById;
+exports.getPlayListTotal = playList.getPlayListTotal;

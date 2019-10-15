@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-31 10:20:26
  * @LastEditors: khdjj
- * @LastEditTime: 2019-10-12 22:52:30
+ * @LastEditTime: 2019-10-15 20:57:44
  */
 let songSheetModel = require('../models/songSheetModels'),
     userModel = require('../models/userModels'),
@@ -64,7 +64,17 @@ exports.insert = function (data) {
 }
 
 
-
+exports.getTotal = function(){
+    return new Promise((resolve,reject)=>{
+        songSheetModel.countDocuments({},(err,count)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(count);
+            }
+        })
+    });
+}
 
 
 exports.findPlayListPaginatet = async function(order,cat,offset,limit){

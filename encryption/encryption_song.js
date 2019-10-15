@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-05-20 15:26:12
  * @LastEditors: khdjj
- * @LastEditTime: 2019-07-20 10:22:24
+ * @LastEditTime: 2019-10-14 20:57:39
  */
 
 'use strict'
@@ -43,10 +43,14 @@ exports.aes = function (id, type, limit, offset) {
         data = `{"csrf_token": "", "limit": ${limit},"offset": ${offset},"rid": "A_PL_0_${id}","total": "true"}`;
         encSecKey = '1ad71e651d6451d45a7ef7e30cc5eca024b6438bc719fdeab85de7bdfd77e99d65fa62b348dc08de95eed205e378410accee8fca968d8501c84505c3c8d20bb10b6190b6ca69b1395c11f6c78572cf11521f3acb11973b8150fbf830737a8b64e8b3a48bae183ad052dd8c0d7d7cb5435b6592f6168046e960ac1f16b98cbe30';
         rand = 'XjuXObTyl4LsPCmi';
-    } else if (type == "MVComment") {
-
-    } else {
-        return;
+    } else if (type == "mvComment") {
+        data = `{"csrf_token": "", "limit": ${limit},"offset": ${offset},"rid": "R_MV_${id}","total": "true"}`;
+        encSecKey = "adb5e012c78208521556d1ce41c1561f5ff2358654db186f7aa0ca34ad48298ea689f4f1d2dfb90032212f620bb7b80874ff4950137099fedbd20cf054276912b92898e2981f960559a9b3f0f92798f26a5332b3c46f66c687956d81e9b71558cb7c1d60d6077c63cd22920e4bb61cc9bc6c140526a261ac4437bb6ede451c31";
+        rand = 'jnkBpIpyYOdniK2J';
+    } else if(type == "mv"){
+        data = `{"csrf_token": "", "id": ${id},"r":"1080"}`;
+        rand = "1BvaqROTUIinHgJF";
+        encSecKey = "4e61ff3c2fb375a2a8d0006da7504bfefd24f7ec42db4169793fa81edb307acea6b6ea474cc70e9b7767f7c011a7f9c13b86574d0569d90e5b84bae61689b840dfd1a47904138aec7a3d0e81021e6c8863b6d88526e96107e2543a1afa0c4dd9144db885bdfdae17da4826c6dfaccb5062e02049b3a72771ae5db13d38955f42";
     }
     console.log(data);
     return d(data, '0CoJUm6Qyw8W8jud', rand, encSecKey);
