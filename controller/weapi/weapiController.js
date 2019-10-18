@@ -4,13 +4,14 @@
  * @Author: khdjj
  * @Date: 2019-06-26 15:03:05
  * @LastEditors: khdjj
- * @LastEditTime: 2019-10-14 10:42:51
+ * @LastEditTime: 2019-10-17 17:21:21
  */
 
 let chalk = require('chalk'),
     format = require('../../service/formatDate'),
     getUserId = require('../../service/getUser'),
     getUUID = require('../../service/getUUID'),
+    shareDao = require('../../dao/shareDao'),
     songSheetDao = require('../../dao/songSheetDao'),
     userDao = require('../../dao/userDao'),
     spider = require('../../spider/searchSpider'),
@@ -29,8 +30,69 @@ class Weapi {
       this.addCollection  =this.addCollection.bind(this);
       //添加歌单收藏
       this.addPlayListCollection = this.addPlayListCollection.bind(this);
+      this.getUploadImage = this.getUploadImage.bind(this);
+      this.createShareTrend = this.createShareTrend.bind(this);
+      this.getShareTrend = this.getShareTrend.bind(this);
     }
 
+    getShareTrend(req,res,next){
+        try{
+            shareDao.getShareTrend().then(result=>{
+                res.send({
+                    code:200,
+                    result:result
+                })
+            })
+        }catch(err){
+            res.send({
+                code:400,
+                msg:ERR.GET_SHARE_ERR
+            })
+        }
+    }
+
+    createShareTrend(req,res,next){
+        let userId = getUserId(req);
+        const {imgList,userInfo,content,type,shareContent} = req.body;
+        userInfo.userId = userId;
+        console.log(imgList,userInfo,content,type,shareContent);
+        let id = getUUID();
+        let time = Number(new Date());
+        try{
+            shareDao.createShareTrend(content, id, userInfo, imgList, type,shareContent,time).then(data=>{
+                console.log(data);
+                res.send({
+                    code:200,
+                    result:data
+                })
+            })
+        }catch(err){
+            res.send({
+                code:400,
+                result:data
+            })
+        }
+       
+    }
+
+     /**
+     * 处理上传图片
+     */
+    async getUploadImage(req,res,next){
+        try{
+            let data = await getpath(req, res);
+            res.send({
+                code:200,
+                src:data.imgpath
+            })
+        }catch(err){
+            res.send({
+                code:400,
+                msg:ERR.UPLOAD_IMAGE_ERR
+            })
+        }
+       
+    }
 
     /**
      * 添加歌单收藏
@@ -55,9 +117,6 @@ class Weapi {
                 msg:ERR.INSERT_COLLECTION_ERR
             })
         }
-        
-
-
     }
 
     /**
@@ -197,3 +256,6 @@ exports.getCreatePlayList = weapi.getCreatePlayList;
 exports.updatePlayList = weapi.updatePlayList;
 exports.addCollection = weapi.addCollection;
 exports.addPlayListCollection = weapi.addPlayListCollection;
+exports.getUploadImage = weapi.getUploadImage;
+exports.createShareTrend = weapi.createShareTrend;
+exports.getShareTrend = weapi.getShareTrend;

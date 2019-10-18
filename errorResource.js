@@ -4,7 +4,7 @@
  * @Author: khdjj
  * @Date: 2019-06-05 10:23:20
  * @LastEditors: khdjj
- * @LastEditTime: 2019-10-15 08:31:11
+ * @LastEditTime: 2019-10-17 10:48:41
  */
 module.exports = {
     "DATASOURCE_ERR":"对不起，数据库查询失败，请检查参数是否错误",
@@ -26,5 +26,7 @@ module.exports = {
     "UPDATE_PLAYLIST_ERR":"对不起，修改歌单错误",
     "INSERT_COLLECTION_ERR":"对不起，收藏歌单错误",
     "FIND_COLLECT_LIST_ERR":"对不起，查询用户收藏歌单错误",
-    "COMMENT_ERR":"对不起，发布评论错误"
+    "COMMENT_ERR":"对不起，发布评论错误",
+    "UPLOAD_IMAGE_ERR":"对不起，图片上传错误",
+    "GET_SHARE_ERR":"对不起，获取动态数据错误"
 }
